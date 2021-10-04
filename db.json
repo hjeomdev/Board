@@ -30,22 +30,6 @@
       "body": "asdf",
       "tags": "asdf",
       "id": 4
-    },
-    {
-      "title": "sadf",
-      "author": "sadf",
-      "published_at": "sdf",
-      "body": "dd",
-      "tags": "d",
-      "id": 5
-    },
-    {
-      "title": "sdf",
-      "author": "asdf",
-      "published_at": "asdf",
-      "body": "sdf",
-      "tags": "de",
-      "id": 6
     }
   ]
 }
