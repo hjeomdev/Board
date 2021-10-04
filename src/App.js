@@ -4,19 +4,17 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Main from "./js/main/main";
 import Post from "./js/post/post";
-import newPost from "./js/post/newPost";
+import NewPost from "./js/post/newPost";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route path="/posts" component={Main}>
-            <Route path="/posts/:postId" component={Post}/>
-          </Route>
-          <Route path="/new" component={newPost}>
-            <Route path="/new/:postId" component={newPost}/>
-          </Route>
+          <Route path="/posts/:postId" component={Post}/>
+          <Route path="/posts" component={Main}/>  
+          <Route path="/new/:postId" component={NewPost}/>
+          <Route path="/new" component={NewPost}/>
           <Route path="/delete"/>
         </Switch>
       </BrowserRouter>

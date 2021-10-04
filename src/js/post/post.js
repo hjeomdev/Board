@@ -49,11 +49,12 @@ const Post = () => {
             <div className="body">{post.body}</div>
             
             <div className="tags">
-            {post.tags && post.tags.length > -1 &&
+            <span className="tags">{post.tags} </span>
+            {/* {post.tags && post.tags.length > -1 &&
                 (post.tags.map(tag =>
                     (<span className="tags">{tag} </span>))
                 )
-            }
+            } */}
             </div>
         </div>
     );
