@@ -2,6 +2,7 @@ import './App.css';
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
+import Header from './js/main/header';
 import Main from "./js/main/main";
 import Post from "./js/post/post";
 import NewPost from "./js/post/newPost";
@@ -10,6 +11,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Header />  
         <Switch>
           <Route path="/posts/:postId" component={Post}/>
           <Route path="/posts" component={Main}/>  
