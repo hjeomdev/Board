@@ -11,9 +11,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route path="/posts" component={Main}/>
-          <Route path="/posts/:postId" component={Post}/>
-          <Route path="/new" component={newPost}/>
+          <Route path="/posts" component={Main}>
+            <Route path="/posts/:postId" component={Post}/>
+          </Route>
+          <Route path="/new" component={newPost}>
+            <Route path="/new/:postId" component={newPost}/>
+          </Route>
+          <Route path="/delete"/>
         </Switch>
       </BrowserRouter>
     </div>

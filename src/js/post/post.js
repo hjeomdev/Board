@@ -1,30 +1,60 @@
 import React, { useState, useEffect }  from "react";
+import { Link, useParams } from "react-router-dom"
 import axios from 'axios';
 
-function Post() {
+const Post = () => {
     
-    const postId = useState(window.location.pathname.slice(6));
-    const [post, setPost] = useState([]);
+    const params = useParams();
+    const [post, setPost] = useState({
+        title: "",
+        author: "",
+        published_at: "",
+        body: "",
+        tags: []
+    });
 
-    useEffect(
-        () => {
-            getContent();
-        }, []
-    );
+    useEffect(() => {
+        function getContent() {
+            axios.get('http://localhost:3000/posts/' + params.postId)
+            .then((res) => {
+                setPost({
+                    title: res.data.title,
+                    author: res.data.author,
+                    published_at: res.data.published_at,
+                    body: res.data.body,
+                    tags: res.data.tags
+                });
+            }).catch(error => {
+                console.log(error.response)
+            });
+        }
+        getContent()
+    }, []);
 
-    function getContent() {
-        console.log("ehll")
-        axios.get('http://localhost:3000/posts/' + postId)
-        .then(function (res) {
-            setPost(res);
-        }).catch(error => {
-            console.log(error.response)
-        });
-    };
-
+    
     return (
         <div className="post">
-            dd
+            
+            <div className="title">
+                <h2>{post.title}</h2>
+            </div>
+
+            <div className="author">{post.author}</div>
+            
+            <div className="published_at">{post.published_at}</div>
+            
+            <Link to={`/new/${params.postId}`}>수정</Link>
+            <Link to={`/delete/${params.postId}`}>삭제</Link>
+
+            <div className="body">{post.body}</div>
+            
+            <div className="tags">
+            {post.tags && post.tags.length > -1 &&
+                (post.tags.map(tag =>
+                    (<span className="tags">{tag} </span>))
+                )
+            }
+            </div>
         </div>
     );
 }
