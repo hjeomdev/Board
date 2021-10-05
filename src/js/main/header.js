@@ -8,12 +8,12 @@ function Header(){
         <div className="header">
             <Navbar>
                 <Container>
-                    <Navbar.Brand href="/posts">MEMO</Navbar.Brand>
+                    <Navbar.Brand href="/posts">MY MEMO</Navbar.Brand>
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text>
                         <Link to="/new">
-                            <Button variant="light" onClikck>새 글 작성</Button>
+                            <Button variant="light">새 글 작성</Button>
                         </Link>
                     </Navbar.Text>
                     </Navbar.Collapse>
