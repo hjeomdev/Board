@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom"
 
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/post.css'
 
 import axios from 'axios';
 

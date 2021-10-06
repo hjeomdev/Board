@@ -2,15 +2,16 @@ import React, { useState, useEffect }  from "react";
 
 import { useParams } from "react-router-dom"
 
-import axios from 'axios';
-
 import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/newPost.css'
+
+import axios from 'axios';
 
 function NewPost() {
 
     const params = useParams();
-    const [flag, setFlag] = useState(false);
+    const [newOrNotFlag, setNewOrNotFlag] = useState(false);
 
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
@@ -33,15 +34,15 @@ function NewPost() {
         }
 
         if (params.postId != null) { //postId 파라미터가 없음
-            setFlag(true);
+            setNewOrNotFlag(true);
             loadSavedData();
         } 
     }, []); 
 
     function saveNewData() {
-        let newData = {title: title, author: author, published_at: published_at, body: body, tags: tags};
+        let newData = {title: title, author: author, published_at: new Date().toLocaleString(), body: body, tags: tags};
 
-        if (flag == true) {
+        if (newOrNotFlag == true) {
             axios.put('http://localhost:3000/posts/' + params.postId, newData)
             .then((res) => {
                 window.location.href="/posts/" + params.postId;
@@ -73,11 +74,6 @@ function NewPost() {
                 <Form.Label>작성자</Form.Label>
                 <Form.Control type="text" placeholder="작성자" value={author} onChange={(e) => setAuthor(e.target.value)} />
             </Form.Group>
-            
-            <Form.Group controlId="formTitle">
-                <Form.Label>작성일</Form.Label>
-                <Form.Control type="text" placeholder="작성일" value={published_at} onChange={(e) => setPublished_at(e.target.value)}/>
-            </Form.Group>
 
             <Form.Group controlId="formTitle">
                 <Form.Label>내용</Form.Label>
@@ -93,6 +89,15 @@ function NewPost() {
                 Submit
             </Button>
         </Form>
+
+        {/* <form onSubmit={saveNewData}>
+            <input type="text" name="title" required placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)}>제목</input>
+
+            <input type="text" name="author" required placeholder="작성자를 입력하세요" value={author} onChange={(e) => setAuthor(e.target.value)}>작성자</input>
+            
+            
+        </form> */}
+
         </div>
     );
 }
