@@ -39,7 +39,8 @@ function Post() {
                     tags: res.data.tags
                 });
             }).catch(error => {
-                console.log(error.response)
+                console.log(error.response);
+                history.push("/posts");
             });
         }
         getSavedContent()

@@ -41,6 +41,7 @@ function NewPost() {
                 // console.log(res);
             }).catch(error => {
                 console.log(error.response)
+                history.push("/posts");
             });
         }
     }, [postId]); 
