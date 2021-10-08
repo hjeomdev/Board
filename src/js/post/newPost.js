@@ -100,10 +100,10 @@ function NewPost() {
                     overlay={
                     <Tooltip id="button-tooltip-2">
                         스페이스바로 태그를 등록할 수 있습니다.
-                    </Tooltip>
-                } >
+                    </Tooltip>} >
+
             <div className="formTags">
-                <span className="tags">
+                <span className="savedTags">
                 { tags && tags.length > -1 ? 
                     tags.map((tag, i) => <Tag key={i} tag={tag} tagId={tags.indexOf(tag)} postOrNot={false} deleteTag={deleteTag}/>) : ('') 
                 }

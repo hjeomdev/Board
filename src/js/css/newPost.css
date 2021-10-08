@@ -16,9 +16,6 @@
     display: flex;
     flex-direction: row;
 }
-.tags, .newTags {
-    flex: 1 1 auto; /* flex: 1 1 0 */
-}
 
 .formSubmit {
     margin-left: auto;
