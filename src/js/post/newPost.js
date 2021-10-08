@@ -66,6 +66,14 @@ function NewPost() {
         
     }
 
+    function deleteTag(id) {
+        let temp = tags.slice();
+        
+        temp.pop(id);
+        
+        setTags(temp);
+    }
+
     return (
         
         <Form className="newPost" onSubmit={saveNewData}>
@@ -85,10 +93,9 @@ function NewPost() {
                 } >
             <div className="formTags">
                 <span className="tags">
-                { tags && tags.length > -1 ? tags.map((tag, i) => <Tag key={i} tag={tag} />) : ('') }
+                { tags && tags.length > -1 ? tags.map((tag, i) => <Tag key={i} tag={tag} tagId={tag.indexOf(tag)} deleteTag={deleteTag}/>) : ('') }
                 </span>
 
-                
                 <Form.Group className="newTags">
                     <Form.Control type="text" placeholder="태그를 입력하세요" value={tempTag} 
                         onKeyPress={(e) => {

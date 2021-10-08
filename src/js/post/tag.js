@@ -3,8 +3,9 @@ import '../css/tag.css'
 
 function Tag(props) {
   return (
-    <span className="tag">
-      <span className="content">{props.tag}</span>
+    <span className="savedTag">
+      <span className="tagContent">{props.tag}</span>
+      <span className="deleteTag" onClick={() => props.deleteTag(props.tagId)}>x</span>
     </span>
   );
 }

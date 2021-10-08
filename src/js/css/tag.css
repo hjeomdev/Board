@@ -1,8 +1,12 @@
-.tag {
+.savedTag {
     border: 1px solid;
     border-radius: 50px;
     margin: 5px;
 }
-.content {
+.tagContent {
     margin: 10px;
+}
+
+.deleteTag {
+    margin: 5px;
 }
