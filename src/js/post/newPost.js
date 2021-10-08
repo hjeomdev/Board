@@ -1,16 +1,20 @@
 import React, { useState, useEffect }  from "react";
+import { useParams, useHistory } from "react-router-dom"
+import axios from 'axios';
 
-import { useParams } from "react-router-dom"
+import Tag from './tag';
 
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/newPost.css'
-
-import axios from 'axios';
 
 function NewPost() {
 
     const params = useParams();
+    const postId = params.postId;
+
+    let history = useHistory();
+    
     const [newOrNotFlag, setNewOrNotFlag] = useState(false);
 
     const [title, setTitle] = useState("");
@@ -19,9 +23,11 @@ function NewPost() {
     const [body, setBody] = useState("");
     const [tags, setTags] = useState("");
 
+    const [tempTag, setTempTag] = useState("");
+
     useEffect(() => {
         function loadSavedData() {
-            axios.get('http://localhost:3000/posts/' + params.postId)
+            axios.get('http://localhost:3000/posts/' + postId)
             .then((res) => {
                 setTitle(res.data.title);
                 setAuthor(res.data.author);
@@ -43,17 +49,16 @@ function NewPost() {
         let newData = {title: title, author: author, published_at: new Date().toLocaleString(), body: body, tags: tags};
 
         if (newOrNotFlag == true) {
-            axios.put('http://localhost:3000/posts/' + params.postId, newData)
-            .then((res) => {
-                window.location.href="/posts/" + params.postId;
-                console.log(title);
+            axios.put('http://localhost:3000/posts/' + postId, newData)
+            .then(() => {
+                history.push("/posts/" + postId);
             }).catch(error => {
                 console.log(error.response)
             });
         } else {
             axios.post('http://localhost:3000/posts', newData)
             .then((res) => {
-                window.location.href="/posts/"+res.data.id;
+                history.push("/posts/" + res.data.id);
             }).catch(error => {
                 console.log(error.response)
             });
@@ -63,42 +68,46 @@ function NewPost() {
 
     return (
         
-        <div className="newPost">
-        <Form onSubmit={saveNewData}>
-            <Form.Group controlId="formTitle">
-                <Form.Label>제목</Form.Label>
-                <Form.Control type="text" placeholder="제목" value={title} onChange={(e) => setTitle(e.target.value)}/>
+        <Form className="newPost" onSubmit={saveNewData}>
+            <Form.Group className="formTitle">
+                <Form.Control type="text" size="lg" placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)} required/>
             </Form.Group>
 
-            <Form.Group controlId="formAuthor">
-                <Form.Label>작성자</Form.Label>
-                <Form.Control type="text" placeholder="작성자" value={author} onChange={(e) => setAuthor(e.target.value)} />
+            <Form.Group className="formAuthor">
+                <Form.Control type="text" placeholder="작성자 이름을 입력하세요" value={author} onChange={(e) => setAuthor(e.target.value)} required/>
             </Form.Group>
 
-            <Form.Group controlId="formTitle">
-                <Form.Label>내용</Form.Label>
-                <Form.Control type="text" placeholder="내용" value={body} onChange={(e) => setBody(e.target.value)}/>
+            <OverlayTrigger placement="bottom" delay={{ show: 250, hide: 400 }} 
+                    overlay={
+                    <Tooltip id="button-tooltip-2">
+                        스페이스바로 태그를 등록할 수 있습니다.
+                    </Tooltip>
+                } >
+            <div className="formTags">
+                <span className="tags">
+                { tags && tags.length > -1 ? tags.map((tag, i) => <Tag key={i} tag={tag} />) : ('') }
+                </span>
+
+                
+                <Form.Group className="newTags">
+                    <Form.Control type="text" placeholder="태그를 입력하세요" value={tempTag} 
+                        onKeyPress={(e) => {
+                            if (e.code === 'Space') {
+                                setTags([...tags, tempTag]);
+                                setTempTag("");
+                            }
+                        }} onChange={(e) => setTempTag(e.target.value)} />
+                </Form.Group>
+            </div>
+            </OverlayTrigger>
+
+            <Form.Group className="formBody">
+                <Form.Control as="textarea" placeholder="당신의 이야기를 적어보세요..." rows={20} value={body} onChange={(e) => setBody(e.target.value)} required/>
             </Form.Group>
 
-            <Form.Group controlId="formTitle">
-                <Form.Label>태그</Form.Label>
-                <Form.Control type="text" placeholder="태그" value={tags} onChange={(e) => setTags(e.target.value)}/>
-            </Form.Group>
-
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
+            <Button variant="primary" type="submit" className="formSubmit">출간하기</Button>
         </Form>
 
-        {/* <form onSubmit={saveNewData}>
-            <input type="text" name="title" required placeholder="제목을 입력하세요" value={title} onChange={(e) => setTitle(e.target.value)}>제목</input>
-
-            <input type="text" name="author" required placeholder="작성자를 입력하세요" value={author} onChange={(e) => setAuthor(e.target.value)}>작성자</input>
-            
-            
-        </form> */}
-
-        </div>
     );
 }
 
