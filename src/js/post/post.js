@@ -2,14 +2,15 @@ import React, { useState, useEffect }  from "react";
 import { Link, useParams, useHistory } from "react-router-dom"
 import axios from 'axios';
 
+import Tag from './tag';
+
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/post.css'
 
 function Post() {
     
-    let params = useParams();
-    let postId = params.postId;
+    const { postId } = useParams();
 
     let history = useHistory();
 
@@ -60,22 +61,33 @@ function Post() {
             
             <div className="title">{post.title}</div>
 
-            <div className="author">{post.author}</div>
+            <div className="underTitle">
+                <span className="postInfo">
+                    <span className="author">{post.author}</span>
+                    <span className="dot">·</span> 
+                    <span className="published_at">{post.published_at}</span>
+                </span>
+                <span className="postControl">
+                    <Link to={`/new/${postId}`} className="updateComp">수정</Link>
+                    <span onClick={handleShowDeleteModal} className="deleteComp">삭제</span>
+                </span>
+            </div>
             
-            <div className="published_at">{post.published_at}</div>
-            
-            <Link to={`/new/${params.postId}`}>수정</Link>
-            <Button onClick={handleShowDeleteModal}>삭제</Button>
-
+            <div className="underTitle">
+            { post.tags && post.tags.length > -1 ?
+                (post.tags.map((tag, i) => <Tag key={i} tag={tag} tagId={post.tags.indexOf(tag)} postOrNot={true}/>)) : ('')
+            }
+            </div>
+        
             <div className="body">{post.body}</div>
             
             <div className="tags">
-            <span className="tag">
-            {post.tags && post.tags.length > -1 &&
-                post.tags.map(tag =>
-                    (<span className="tags">{tag} </span>))
-            }
-            </span>
+                <span className="tag">
+                {post.tags && post.tags.length > -1 &&
+                    post.tags.map(tag =>
+                        (<span className="tags">{tag} </span>))
+                }
+                </span>
             </div>
 
             <div className="deleteModal">

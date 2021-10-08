@@ -11,7 +11,7 @@ import NotFound from "./js/exceptionPage/notFound";
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter forceRefresh={true}>
         <Header />  
         <Switch>
           <Route path="/posts/:postId" component={Post}/>

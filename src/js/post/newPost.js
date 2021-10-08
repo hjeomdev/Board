@@ -10,12 +10,11 @@ import '../css/newPost.css'
 
 function NewPost() {
 
-    const params = useParams();
-    const postId = params.postId;
+    let { postId } = useParams();
 
     let history = useHistory();
     
-    const [newOrNotFlag, setNewOrNotFlag] = useState(false);
+    const [newOrNotFlag, setNewOrNotFlag] = useState(true); //새글 이면 true, 수정이면 false
 
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
@@ -26,6 +25,11 @@ function NewPost() {
     const [tempTag, setTempTag] = useState("");
 
     useEffect(() => {
+        if (postId != null) { //postId 파라미터가 있음
+            setNewOrNotFlag(false);
+            loadSavedData();
+        } 
+        
         function loadSavedData() {
             axios.get('http://localhost:3000/posts/' + postId)
             .then((res) => {
@@ -34,31 +38,28 @@ function NewPost() {
                 setPublished_at(res.data.published_at);
                 setBody(res.data.body);
                 setTags(res.data.tags);
+                // console.log(res);
             }).catch(error => {
                 console.log(error.response)
             });
         }
-
-        if (params.postId != null) { //postId 파라미터가 없음
-            setNewOrNotFlag(true);
-            loadSavedData();
-        } 
-    }, []); 
+    }, [postId]); 
 
     function saveNewData() {
         let newData = {title: title, author: author, published_at: new Date().toLocaleString(), body: body, tags: tags};
 
-        if (newOrNotFlag == true) {
+        if (newOrNotFlag === false) {
             axios.put('http://localhost:3000/posts/' + postId, newData)
             .then(() => {
-                history.push("/posts/" + postId);
+                history.push(`/posts/${postId}`);
             }).catch(error => {
                 console.log(error.response)
             });
         } else {
             axios.post('http://localhost:3000/posts', newData)
             .then((res) => {
-                history.push("/posts/" + res.data.id);
+                console.log(res);
+                history.push(`/posts/${res.data.id}`);
             }).catch(error => {
                 console.log(error.response)
             });
@@ -67,11 +68,20 @@ function NewPost() {
     }
 
     function deleteTag(id) {
+        
         let temp = tags.slice();
         
-        temp.pop(id);
-        
+        temp.splice(id, 1);
+        // console.log(temp);
         setTags(temp);
+    }
+
+    function submitButton() {
+        if(newOrNotFlag === true) {
+            return "출간하기";
+        } else {
+            return "수정하기";
+        }
     }
 
     return (
@@ -93,7 +103,9 @@ function NewPost() {
                 } >
             <div className="formTags">
                 <span className="tags">
-                { tags && tags.length > -1 ? tags.map((tag, i) => <Tag key={i} tag={tag} tagId={tag.indexOf(tag)} deleteTag={deleteTag}/>) : ('') }
+                { tags && tags.length > -1 ? 
+                    tags.map((tag, i) => <Tag key={i} tag={tag} tagId={tags.indexOf(tag)} postOrNot={false} deleteTag={deleteTag}/>) : ('') 
+                }
                 </span>
 
                 <Form.Group className="newTags">
@@ -112,7 +124,7 @@ function NewPost() {
                 <Form.Control as="textarea" placeholder="당신의 이야기를 적어보세요..." rows={20} value={body} onChange={(e) => setBody(e.target.value)} required/>
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="formSubmit">출간하기</Button>
+            <Button variant="primary" type="submit" className="formSubmit">{submitButton()}</Button>
         </Form>
 
     );
