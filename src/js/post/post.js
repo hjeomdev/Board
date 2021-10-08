@@ -74,7 +74,7 @@ function Post() {
                 </span>
             </div>
             
-            <div className="underTitle">
+            <div className="tags">
             { post.tags && post.tags.length > -1 ?
                 (post.tags.map((tag, i) => <Tag key={i} tag={tag} tagId={post.tags.indexOf(tag)} postOrNot={true}/>)) : ('')
             }
@@ -82,14 +82,6 @@ function Post() {
         
             <div className="body">{post.body}</div>
             
-            <div className="tags">
-                <span className="tag">
-                {post.tags && post.tags.length > -1 &&
-                    post.tags.map(tag =>
-                        (<span className="tags">{tag} </span>))
-                }
-                </span>
-            </div>
 
             <div className="deleteModal">
                 <Modal show={deleteModal} onHide={handleCloseDeleteModal}>
