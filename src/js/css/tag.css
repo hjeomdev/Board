@@ -1,0 +1,13 @@
+.savedTag {
+    border: 1px solid;
+    border-radius: 50px;
+    margin: 5px;
+    background-color:honeydew;
+}
+.tagContent {
+    margin: 10px;
+}
+
+.deleteTag {
+    margin: 5px;
+}

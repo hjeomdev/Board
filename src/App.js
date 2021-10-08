@@ -6,11 +6,12 @@ import Header from './js/main/header';
 import Main from "./js/main/main";
 import Post from "./js/post/post";
 import NewPost from "./js/post/newPost";
+import NotFound from "./js/exceptionPage/notFound";
 
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter forceRefresh={true}>
         <Header />  
         <Switch>
           <Route path="/posts/:postId" component={Post}/>
@@ -18,6 +19,7 @@ function App() {
           <Route path="/new/:postId" component={NewPost}/>
           <Route path="/new" component={NewPost}/>
           <Route path="/delete"/>
+          <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
     </div>

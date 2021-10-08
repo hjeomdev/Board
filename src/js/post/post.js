@@ -1,19 +1,19 @@
 import React, { useState, useEffect }  from "react";
+import { Link, useParams, useHistory } from "react-router-dom"
+import axios from 'axios';
 
-import { Link, useParams } from "react-router-dom"
+import Tag from './tag';
 
 import { Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../css/post.css'
 
-import axios from 'axios';
+function Post() {
+    
+    const { postId } = useParams();
 
-const Post = () => {
-    
-    const params = useParams();
-    const [deleteModal, setDeleteModal] = useState(false);
-    const handleCloseDeleteModal = () => setDeleteModal(false);
-    const handleShowDeleteModal = () => setDeleteModal(true);
-    
+    let history = useHistory();
+
     const [post, setPost] = useState({
         title: "",
         author: "",
@@ -22,9 +22,14 @@ const Post = () => {
         tags: []
     });
 
+    const [deleteModal, setDeleteModal] = useState(false);
+    
+    const handleCloseDeleteModal = () => setDeleteModal(false);
+    const handleShowDeleteModal = () => setDeleteModal(true);
+
     useEffect(() => {
-        function getContent() {
-            axios.get('http://localhost:3000/posts/' + params.postId)
+        function getSavedContent() {
+            axios.get('http://localhost:3000/posts/' + postId)
             .then((res) => {
                 setPost({
                     title: res.data.title,
@@ -37,43 +42,52 @@ const Post = () => {
                 console.log(error.response)
             });
         }
-        getContent()
+        getSavedContent()
     }, []);
 
     function deleteContent() {
-        axios.delete('http://localhost:3000/posts/' + params.postId)
-            .then((res) => {
-                handleCloseDeleteModal();
-                window.location.href="/posts";
-            }).catch(error => {
-                console.log(error.response)
-            });
+        axios.delete('http://localhost:3000/posts/' + postId)
+        .then((res) => {
+            handleCloseDeleteModal();
+            history.push("/posts");
+        }).catch(error => {
+            console.log(error.response)
+        });
     }
 
     
     return (
         <div className="post">
             
-            <div className="title">
-                <h2>{post.title}</h2>
+            <div className="title">{post.title}</div>
+
+            <div className="underTitle">
+                <span className="postInfo">
+                    <span className="author">{post.author}</span>
+                    <span className="dot">·</span> 
+                    <span className="published_at">{post.published_at}</span>
+                </span>
+                <span className="postControl">
+                    <Link to={`/new/${postId}`} className="updateComp">수정</Link>
+                    <span onClick={handleShowDeleteModal} className="deleteComp">삭제</span>
+                </span>
             </div>
-
-            <div className="author">{post.author}</div>
             
-            <div className="published_at">{post.published_at}</div>
-            
-            <Link to={`/new/${params.postId}`}>수정</Link>
-            <Button onClick={handleShowDeleteModal}>삭제</Button>
-
+            <div className="underTitle">
+            { post.tags && post.tags.length > -1 ?
+                (post.tags.map((tag, i) => <Tag key={i} tag={tag} tagId={post.tags.indexOf(tag)} postOrNot={true}/>)) : ('')
+            }
+            </div>
+        
             <div className="body">{post.body}</div>
             
             <div className="tags">
-            <span className="tags">{post.tags} </span>
-            {/* {post.tags && post.tags.length > -1 &&
-                (post.tags.map(tag =>
-                    (<span className="tags">{tag} </span>))
-                )
-            } */}
+                <span className="tag">
+                {post.tags && post.tags.length > -1 &&
+                    post.tags.map(tag =>
+                        (<span className="tags">{tag} </span>))
+                }
+                </span>
             </div>
 
             <div className="deleteModal">

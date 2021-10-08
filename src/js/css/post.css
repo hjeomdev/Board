@@ -1,0 +1,41 @@
+.post {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    margin: 50px 30% 10% 30%;
+}
+
+.title, .underTitle, .tags{
+    flex: 1; /* flex: 1 1 0 */
+    overflow: auto;
+    margin-bottom: 50px;
+}
+
+.title {
+    font-size: xx-large;
+    font-weight: 500;
+    margin-right: auto;
+}
+
+.underTitle {
+    display: flex;
+    flex-direction: row;
+}
+
+.postInfo {
+    margin-right: auto;
+}
+
+.author, .dot, .publised_at { 
+    margin: 10px;
+}
+
+.deleteComp, .updateComp {
+    flex: 1 1 auto; 
+    margin: 10px;
+}
+
+.body {
+    margin-right: auto;
+}
