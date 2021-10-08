@@ -5,7 +5,7 @@ function Tag(props) {
   return (
     <span className="savedTag">
       <span className="tagContent">{props.tag}</span>
-      <span className="deleteTag" onClick={() => props.deleteTag(props.tagId)}>x</span>
+      <span className="deleteTag" onClick={() => props.deleteTag(props.tagId)}>X</span>
     </span>
   );
 }
