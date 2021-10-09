@@ -30,12 +30,12 @@ function Post({id, title, body, author, date}){
     }
 
     return(
-        <Card id={id} onClick={detail}>
+        <Card style={{ width:'25%' }} id={id} onClick={detail}>
             <Card.Img variant="top" src="https://cdn.pixabay.com/photo/2017/03/28/22/55/night-photograph-2183637_960_720.jpg" />
             <Card.Body>
             <Card.Title>{title}</Card.Title>
             <Card.Text>
-                {body.slice(0,140)}...
+                {body.slice(0,140)}
             </Card.Text>
             <small>{date}</small>
             </Card.Body>
