@@ -3,21 +3,21 @@ import axios from 'axios';
 import Post from "./post.js";
 import Paging from './paging';
 import Search from "./search.js";
-import { CardGroup } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 
 function Main() {
     // Post List
     const [posts, setPost] = useState("");
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
-    //Search
+    // Search
     const [searchTerm, setSearchTerm] = useState('');
     // 페이지에 뿌릴 post 갯수
-    const postsPerPage = 12;
+    const postsPerPage = 8;
     
     useEffect(() =>{
         async function fetchDate() {
-            const response = await axios.get("http://localhost:3001/posts");
+            const response = await axios.get("http://localhost:3000/posts");
             setPost(response.data);
         }
         fetchDate();
@@ -29,7 +29,7 @@ function Main() {
                 .includes(searchTerm.toLowerCase());
     });
 
-    // Paging
+    // Pagination
     const indexOfLast = currentPage * postsPerPage;
     const indexOfFirst = indexOfLast - postsPerPage;
     function currentPosts(posts) {
@@ -44,7 +44,7 @@ function Main() {
     return (
         <div className="container">
             <Search onSearch={handleSearch} search={searchTerm}/>
-            <CardGroup>
+            <Row>
                 {currentPosts(searchedPosts).map(post => (
                     <Post
                         key={post.id}
@@ -55,7 +55,7 @@ function Main() {
                         author={post.author}
                     />
                 ))}
-            </CardGroup>
+                </Row>
             <Paging postsPerPage={postsPerPage} totalPosts={posts.length} currentPage={currentPage} paginate={setCurrentPage}></Paging>
         </div>
     );
