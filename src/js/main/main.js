@@ -3,6 +3,7 @@ import axios from 'axios';
 import Post from "./post.js";
 import Paging from './paging';
 import Search from "./search.js";
+import "../css/main.css";
 import { Row } from "react-bootstrap";
 
 function Main() {
