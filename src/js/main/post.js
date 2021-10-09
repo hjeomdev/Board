@@ -30,9 +30,21 @@ function Post({id, title, body, author, date}){
         date = makeYYYYMMDD(date);
     }
 
+const images = [
+    "https://cdn.pixabay.com/photo/2021/08/06/05/04/mountain-6525356_960_720.jpg",
+    "https://cdn.pixabay.com/photo/2020/11/26/07/41/maine-coon-5778153_960_720.jpg",
+    "https://cdn.pixabay.com/https://cdn.pixabay.com/photo/2021/09/21/14/56/leaves-6643792_960_720.jpg/2016/06/30/12/29/carnation-1488929_960_720.jpg",
+    "https://cdn.pixabay.com/photo/2021/09/20/06/55/spaghetti-6639970_960_720.jpg",
+    "https://cdn.pixabay.com/photo/2021/10/04/09/10/dog-6679822_960_720.jpg",
+    "https://cdn.pixabay.com/photo/2021/09/12/15/58/coast-6618689_960_720.jpg"
+]
+
+function randomImg() {
+    return images[Math.floor(Math.random() * images.length)];
+}
     return(
         <Card id={id} onClick={detail}>
-            <Card.Img variant="top" src="https://cdn.pixabay.com/photo/2017/03/28/22/55/night-photograph-2183637_960_720.jpg" />
+            <Card.Img variant="top" src= {randomImg()} />
             <Card.Body>
             <Card.Title>{title}</Card.Title>
             <Card.Text>
